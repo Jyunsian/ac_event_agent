@@ -1,0 +1,6 @@
+[
+  {"app_id":"game.casual","user_id":"u1","installed_at":"2026-01-01T00:00:00Z","platform":"ios","country":"TW","acquisition_source":"organic","campaign_id":null,"app_version_at_install":"1.0.0"},
+  {"app_id":"game.casual","user_id":"u2","installed_at":"2026-01-01T00:00:00Z","platform":"android","country":"TW","acquisition_source":"ads","campaign_id":"c1","app_version_at_install":"1.0.0"},
+  {"app_id":"game.casual","user_id":"u3","installed_at":"2026-01-01T00:00:00Z","platform":"ios","country":"JP","acquisition_source":"ads","campaign_id":"c2","app_version_at_install":"1.0.0"},
+  {"app_id":"game.casual","user_id":"u4","installed_at":"2026-01-05T00:00:00Z","platform":"android","country":"US","acquisition_source":"organic","campaign_id":null,"app_version_at_install":"1.0.1"}
+]

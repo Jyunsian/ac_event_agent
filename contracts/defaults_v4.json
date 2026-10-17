@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "analysis_version": "4.0-time-aware",
+  "windows_hours": [
+    24,
+    48,
+    72,
+    96,
+    120,
+    144
+  ],
+  "max_discovery_candidates": 20000,
+  "max_candidates": 2000,
+  "max_finalists": 10,
+  "seed": 42,
+  "min_group_users": 100,
+  "bootstrap_replicates": 1000,
+  "exploration_fraction": 0.7,
+  "existing_rules": []
+}

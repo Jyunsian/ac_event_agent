@@ -1,0 +1,77 @@
+{
+  "before": {
+    "runs": [
+      "0b2dd3b5-5cc4-4dac-8afc-13490c9039bc",
+      "3fe9cef9-d078-4a35-b380-62ebf89232b5",
+      "59257e98-8a1a-4c7f-a906-621200348de7",
+      "5b75631a-bc4b-4527-8b30-10d50ea7a7cf",
+      "6532aeeb-fcd4-4f68-9e0f-06ce0b374452",
+      "66a6e5c5-295c-4d85-8048-29cfe238d191",
+      "6d92a161-3ff0-4eaa-8305-6736fe1d1f13",
+      "6fceb1df-939d-40c2-935f-6be72bc903bc",
+      "7cd9542a-4793-4611-8090-780dd147b375",
+      "820bd3f1-10f5-497f-9662-4eabda20363b",
+      "ae7dff45-c352-44e2-9f23-197667a57f82",
+      "b3499f0b-ec9d-4118-bf4f-6ed6888d5ab7",
+      "cbf890fb-6ced-4a0f-86d0-77928fad2600",
+      "ded6b0a7-8f83-4aee-a0e6-f723b75d5a3e",
+      "f195d3ce-d17c-4e6a-9b8b-5c1772c34bb8"
+    ],
+    "jobs": [
+      "0718b72e-3956-46ae-9b60-c5a6ab8aa220",
+      "1d04c1d2-987b-4148-a144-028850a8e3a9",
+      "21f5f57b-6d23-453d-b107-1aea7be06b42",
+      "25c481f3-e03d-4839-99b4-c2781852840e",
+      "494b638d-f027-42ba-847c-6b120588fa6f",
+      "4a18332e-2e88-4fbd-95c2-cf06e70d533f",
+      "66247f6f-bf96-4a0c-b9a8-cf7089416019",
+      "82408639-895c-4c7c-a828-f54f611b3854",
+      "8878cc5c-a5d2-4700-a2a9-409582d13119",
+      "889a8a9b-2388-4884-bc5a-144eee40744a",
+      "9b9bf238-2bbf-4e68-92bf-b6559b89f6e2",
+      "f0cdb746-db3f-46a3-85f0-d7b9ac55b93e",
+      "f1bf72f2-2b3e-4c6c-ad17-14a450ebe883",
+      "f2a9cb49-5d71-456a-8318-c50f52b63c3d",
+      "ffaa76d3-27db-49ce-8218-56e9c8ee73f8"
+    ]
+  },
+  "after": {
+    "runs": [
+      "0b2dd3b5-5cc4-4dac-8afc-13490c9039bc",
+      "3fe9cef9-d078-4a35-b380-62ebf89232b5",
+      "59257e98-8a1a-4c7f-a906-621200348de7",
+      "5b75631a-bc4b-4527-8b30-10d50ea7a7cf",
+      "6532aeeb-fcd4-4f68-9e0f-06ce0b374452",
+      "66a6e5c5-295c-4d85-8048-29cfe238d191",
+      "6d92a161-3ff0-4eaa-8305-6736fe1d1f13",
+      "6fceb1df-939d-40c2-935f-6be72bc903bc",
+      "7cd9542a-4793-4611-8090-780dd147b375",
+      "820bd3f1-10f5-497f-9662-4eabda20363b",
+      "ae7dff45-c352-44e2-9f23-197667a57f82",
+      "b3499f0b-ec9d-4118-bf4f-6ed6888d5ab7",
+      "cbf890fb-6ced-4a0f-86d0-77928fad2600",
+      "ded6b0a7-8f83-4aee-a0e6-f723b75d5a3e",
+      "f195d3ce-d17c-4e6a-9b8b-5c1772c34bb8"
+    ],
+    "jobs": [
+      "0718b72e-3956-46ae-9b60-c5a6ab8aa220",
+      "1d04c1d2-987b-4148-a144-028850a8e3a9",
+      "21f5f57b-6d23-453d-b107-1aea7be06b42",
+      "25c481f3-e03d-4839-99b4-c2781852840e",
+      "494b638d-f027-42ba-847c-6b120588fa6f",
+      "4a18332e-2e88-4fbd-95c2-cf06e70d533f",
+      "66247f6f-bf96-4a0c-b9a8-cf7089416019",
+      "82408639-895c-4c7c-a828-f54f611b3854",
+      "8878cc5c-a5d2-4700-a2a9-409582d13119",
+      "889a8a9b-2388-4884-bc5a-144eee40744a",
+      "9b9bf238-2bbf-4e68-92bf-b6559b89f6e2",
+      "f0cdb746-db3f-46a3-85f0-d7b9ac55b93e",
+      "f1bf72f2-2b3e-4c6c-ad17-14a450ebe883",
+      "f2a9cb49-5d71-456a-8318-c50f52b63c3d",
+      "ffaa76d3-27db-49ce-8218-56e9c8ee73f8"
+    ]
+  },
+  "exit_code": 0,
+  "stdout": "{\"width\":1440,\"param\":\"window_hours\",\"value\":\"1\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&window_hours=1\n{\"width\":1440,\"param\":\"window_hours\",\"value\":\"3\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&window_hours=3\n{\"width\":1440,\"param\":\"window_hours\",\"value\":\"6\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&window_hours=6\n{\"width\":1440,\"param\":\"window_hours\",\"value\":\"12\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&window_hours=12\n{\"width\":1440,\"param\":\"window_hours\",\"value\":\"24\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&window_hours=24\n{\"width\":1440,\"param\":\"window_hours\",\"value\":\"48\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&window_hours=48\n{\"width\":1440,\"param\":\"window_hours\",\"value\":\"72\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&window_hours=72\n{\"width\":1440,\"param\":\"window_hours\",\"value\":\"96\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&window_hours=96\n{\"width\":1440,\"param\":\"window_hours\",\"value\":\"120\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&window_hours=120\n{\"width\":1440,\"param\":\"window_hours\",\"value\":\"144\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&window_hours=144\n{\"width\":1440,\"param\":\"window_hours\",\"value\":\"168\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&window_hours=168\n{\"width\":1440,\"param\":\"family\",\"value\":\"atom\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&family=atom\n{\"width\":1440,\"param\":\"family\",\"value\":\"compound\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&family=compound\n{\"width\":1440,\"param\":\"family\",\"value\":\"sequence\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&family=sequence\n{\"width\":1440,\"param\":\"ad_format\",\"value\":\"all\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&ad_format=all\n{\"width\":1440,\"param\":\"ad_format\",\"value\":\"rewarded\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&ad_format=rewarded\n{\"width\":1440,\"param\":\"ad_format\",\"value\":\"interstitial\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&ad_format=interstitial\n{\"width\":1440,\"param\":\"ad_format\",\"value\":\"never-observed\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&ad_format=never-observed\n{\"width\":1440,\"param\":\"evidence_status\",\"value\":\"historically_validated\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&evidence_status=historically_validated\n{\"width\":1440,\"param\":\"evidence_status\",\"value\":\"exploratory\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&evidence_status=exploratory\n{\"width\":1440,\"param\":\"evidence_status\",\"value\":\"insufficient_data\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&evidence_status=insufficient_data\n{\"width\":1440,\"param\":\"role\",\"value\":\"unselected\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&role=unselected\n{\"width\":1440,\"param\":\"role\",\"value\":\"價值差較大\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&role=%E5%83%B9%E5%80%BC%E5%B7%AE%E8%BC%83%E5%A4%A7\n{\"width\":1440,\"param\":\"role\",\"value\":\"覆蓋較廣\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&role=%E8%A6%86%E8%93%8B%E8%BC%83%E5%BB%A3\n{\"width\":1440,\"param\":\"role\",\"value\":\"達標較快\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&role=%E9%81%94%E6%A8%99%E8%BC%83%E5%BF%AB\n{\"width\":1440,\"param\":\"sort\",\"value\":\"difference_usd\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&sort=difference_usd&descending=true\n{\"width\":1440,\"param\":\"sort\",\"value\":\"coverage\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&sort=coverage&descending=true\n{\"width\":1440,\"param\":\"sort\",\"value\":\"p90_seconds\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&sort=p90_seconds&descending=false\n{\"width\":1440,\"param\":\"sort\",\"value\":\"candidate_id\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&sort=candidate_id&descending=false\n{\"width\":1440,\"cases\":29,\"writes\":[],\"errors\":[]}\n{\"width\":390,\"param\":\"window_hours\",\"value\":\"1\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&window_hours=1\n{\"width\":390,\"param\":\"window_hours\",\"value\":\"3\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&window_hours=3\n{\"width\":390,\"param\":\"window_hours\",\"value\":\"6\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&window_hours=6\n{\"width\":390,\"param\":\"window_hours\",\"value\":\"12\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&window_hours=12\n{\"width\":390,\"param\":\"window_hours\",\"value\":\"24\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&window_hours=24\n{\"width\":390,\"param\":\"window_hours\",\"value\":\"48\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&window_hours=48\n{\"width\":390,\"param\":\"window_hours\",\"value\":\"72\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&window_hours=72\n{\"width\":390,\"param\":\"window_hours\",\"value\":\"96\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&window_hours=96\n{\"width\":390,\"param\":\"window_hours\",\"value\":\"120\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&window_hours=120\n{\"width\":390,\"param\":\"window_hours\",\"value\":\"144\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&window_hours=144\n{\"width\":390,\"param\":\"window_hours\",\"value\":\"168\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&window_hours=168\n{\"width\":390,\"param\":\"family\",\"value\":\"atom\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&family=atom\n{\"width\":390,\"param\":\"family\",\"value\":\"compound\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&family=compound\n{\"width\":390,\"param\":\"family\",\"value\":\"sequence\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&family=sequence\n{\"width\":390,\"param\":\"ad_format\",\"value\":\"all\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&ad_format=all\n{\"width\":390,\"param\":\"ad_format\",\"value\":\"rewarded\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&ad_format=rewarded\n{\"width\":390,\"param\":\"ad_format\",\"value\":\"interstitial\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&ad_format=interstitial\n{\"width\":390,\"param\":\"ad_format\",\"value\":\"never-observed\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&ad_format=never-observed\n{\"width\":390,\"param\":\"evidence_status\",\"value\":\"historically_validated\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&evidence_status=historically_validated\n{\"width\":390,\"param\":\"evidence_status\",\"value\":\"exploratory\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&evidence_status=exploratory\n{\"width\":390,\"param\":\"evidence_status\",\"value\":\"insufficient_data\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&evidence_status=insufficient_data\n{\"width\":390,\"param\":\"role\",\"value\":\"unselected\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&role=unselected\n{\"width\":390,\"param\":\"role\",\"value\":\"價值差較大\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&role=%E5%83%B9%E5%80%BC%E5%B7%AE%E8%BC%83%E5%A4%A7\n{\"width\":390,\"param\":\"role\",\"value\":\"覆蓋較廣\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&role=%E8%A6%86%E8%93%8B%E8%BC%83%E5%BB%A3\n{\"width\":390,\"param\":\"role\",\"value\":\"達標較快\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&role=%E9%81%94%E6%A8%99%E8%BC%83%E5%BF%AB\n{\"width\":390,\"param\":\"sort\",\"value\":\"difference_usd\"}\nrequest http://127.0.0.1:5183/api/agent/status\n{\"width\":390,\"param\":\"sort\",\"value\":\"coverage\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&sort=coverage&descending=true\n{\"width\":390,\"param\":\"sort\",\"value\":\"p90_seconds\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&sort=p90_seconds&descending=false\n{\"width\":390,\"param\":\"sort\",\"value\":\"candidate_id\"}\nrequest http://127.0.0.1:5183/api/runs/6d92a161-3ff0-4eaa-8305-6736fe1d1f13/reports/1/candidates?page=1&sort=candidate_id&descending=false\n{\"width\":390,\"cases\":29,\"writes\":[],\"errors\":[]}\nParent report SHA unchanged\n",
+  "stderr": ""
+}

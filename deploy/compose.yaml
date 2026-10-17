@@ -1,0 +1,98 @@
+name: ac-event
+x-python: &python
+  image: ac-event-python:${RELEASE_TAG:-local}
+  build:
+    context: ..
+    dockerfile: deploy/python.Dockerfile
+  env_file: ${AC_SERVER_ENV_FILE:?Set an absolute path to a server-only env file}
+  init: true
+  read_only: true
+  tmpfs: ["/tmp:size=67108864,mode=1777"]
+  cap_drop: [ALL]
+  security_opt: [no-new-privileges:true]
+  networks: [backend]
+services:
+  migrate:
+    <<: *python
+    command: [alembic, upgrade, head]
+    restart: "no"
+    mem_limit: 256m
+  api:
+    <<: *python
+    environment:
+      AGENT_HEALTH_URL: http://agent:8081/health
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+    restart: unless-stopped
+    mem_limit: 512m
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/api/health',timeout=3)"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+  worker:
+    <<: *python
+    command: [python, -m, server.worker]
+    environment:
+      WORKER_WORK_ROOT: /work
+      WORKER_HEALTH_FILE: /tmp/worker-health.json
+    volumes: [worker-scratch:/work]
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+    restart: unless-stopped
+    stop_grace_period: 30s
+    mem_limit: ${COMPUTE_CONTAINER_MEMORY:-2g}
+    cpus: ${COMPUTE_CONTAINER_CPUS:-2}
+    healthcheck:
+      test: [CMD, python, -m, server.worker_health]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+  agent:
+    image: ac-event-agent:${RELEASE_TAG:-local}
+    build:
+      context: ..
+      dockerfile: deploy/agent.Dockerfile
+    env_file: ${AC_AGENT_ENV_FILE:?Set an absolute path to an agent-only env file}
+    environment:
+      AGENT_HOST: 0.0.0.0
+      AGENT_API_BASE_URL: http://api:8080
+    init: true
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    networks: [backend]
+    depends_on:
+      api: {condition: service_healthy}
+    restart: unless-stopped
+    mem_limit: 384m
+    healthcheck:
+      test: [CMD, node, -e, "fetch('http://127.0.0.1:8081/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+  web:
+    image: ac-event-web:${RELEASE_TAG:-local}
+    build:
+      context: ..
+      dockerfile: deploy/web.Dockerfile
+    ports: ["${AC_BIND_ADDRESS:-127.0.0.1}:${AC_HTTP_PORT:-8090}:8080"]
+    read_only: true
+    tmpfs: ["/tmp:size=33554432,mode=1777"]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    networks: [backend]
+    depends_on:
+      api: {condition: service_healthy}
+    restart: unless-stopped
+    mem_limit: 128m
+    healthcheck:
+      test: [CMD, wget, -q, -O, /dev/null, http://127.0.0.1:8080/healthz]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+networks:
+  backend: {}
+volumes:
+  worker-scratch: {}

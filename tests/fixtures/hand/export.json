@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0",
+  "complete_through": "2026-01-14T00:00:00Z",
+  "exported_at": "2026-01-15T00:00:00Z",
+  "origin": "first_open",
+  "id_policy": "one anonymous ID per install",
+  "revenue_timing": "available_at",
+  "synthetic": true
+}

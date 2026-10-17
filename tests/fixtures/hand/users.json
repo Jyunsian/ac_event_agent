@@ -1,0 +1,44 @@
+[
+  {
+    "app_id": "synthetic",
+    "user_id": "u1",
+    "installed_at": "2026-01-01T00:00:00Z",
+    "platform": "android",
+    "country": "US"
+  },
+  {
+    "app_id": "synthetic",
+    "user_id": "u2",
+    "installed_at": "2026-01-02T00:00:00Z",
+    "platform": "ios",
+    "country": "TW"
+  },
+  {
+    "app_id": "synthetic",
+    "user_id": "u3",
+    "installed_at": "2026-01-03T00:00:00Z",
+    "platform": "android",
+    "country": "US"
+  },
+  {
+    "app_id": "synthetic",
+    "user_id": "u4",
+    "installed_at": "2026-01-04T00:00:00Z",
+    "platform": "ios",
+    "country": "TW"
+  },
+  {
+    "app_id": "synthetic",
+    "user_id": "u5",
+    "installed_at": "2026-01-05T00:00:00Z",
+    "platform": "android",
+    "country": "US"
+  },
+  {
+    "app_id": "synthetic",
+    "user_id": "u6",
+    "installed_at": "2026-01-10T00:00:00Z",
+    "platform": "ios",
+    "country": "TW"
+  }
+]

@@ -1,0 +1,458 @@
+[
+  {
+    "id": "valid-user",
+    "definition": "user",
+    "valid": true,
+    "data": {
+      "app_id": "synthetic",
+      "user_id": "u1",
+      "installed_at": "2026-01-01T00:00:00Z",
+      "platform": "android"
+    }
+  },
+  {
+    "id": "invalid-timezone",
+    "definition": "user",
+    "valid": false,
+    "data": {
+      "app_id": "synthetic",
+      "user_id": "u1",
+      "installed_at": "2026-01-01T00:00:00",
+      "platform": "android"
+    }
+  },
+  {
+    "id": "invalid-platform",
+    "definition": "user",
+    "valid": false,
+    "data": {
+      "app_id": "synthetic",
+      "user_id": "u1",
+      "installed_at": "2026-01-01T00:00:00Z",
+      "platform": "web"
+    }
+  },
+  {
+    "id": "valid-event-missing-revenue",
+    "definition": "event",
+    "valid": true,
+    "data": {
+      "app_id": "synthetic",
+      "user_id": "u1",
+      "event_id": "e1",
+      "event_name": "ad_impression",
+      "event_time": "2026-01-01T00:00:00Z",
+      "revenue_usd": null
+    }
+  },
+  {
+    "id": "invalid-revenue-string",
+    "definition": "event",
+    "valid": false,
+    "data": {
+      "app_id": "synthetic",
+      "user_id": "u1",
+      "event_id": "e1",
+      "event_name": "ad_impression",
+      "event_time": "2026-01-01T00:00:00Z",
+      "revenue_usd": "0.1"
+    }
+  },
+  {
+    "id": "valid-config",
+    "definition": "config",
+    "valid": true,
+    "data": {
+      "schema_version": "1.0",
+      "windows_hours": [
+        1,
+        3,
+        6,
+        24,
+        72
+      ],
+      "max_candidates": 2000,
+      "max_finalists": 10,
+      "seed": 42,
+      "min_group_users": 100,
+      "bootstrap_replicates": 1000,
+      "exploration_fraction": 0.7
+    }
+  },
+  {
+    "id": "invalid-budget",
+    "definition": "config",
+    "valid": false,
+    "data": {
+      "schema_version": "1.0",
+      "windows_hours": [
+        1,
+        3,
+        6,
+        24,
+        72
+      ],
+      "max_candidates": 999999,
+      "max_finalists": 10,
+      "seed": 42,
+      "min_group_users": 100,
+      "bootstrap_replicates": 1000,
+      "exploration_fraction": 0.7
+    }
+  },
+  {
+    "id": "valid-candidate",
+    "definition": "candidate",
+    "valid": true,
+    "data": {
+      "schema_version": "1.0",
+      "candidate_id": "rewarded-5-6h",
+      "window_hours": 6,
+      "predicate": {
+        "op": "count",
+        "threshold": 5,
+        "event_name": "ad_impression",
+        "ad_format": "rewarded"
+      },
+      "trigger_policy": "first_match_once",
+      "dependencies": [
+        "ad_impression"
+      ]
+    }
+  },
+  {
+    "id": "invalid-arbitrary-code",
+    "definition": "candidate",
+    "valid": false,
+    "data": {
+      "schema_version": "1.0",
+      "candidate_id": "rewarded-5-6h",
+      "window_hours": 6,
+      "predicate": {
+        "op": "python",
+        "code": "print(1)"
+      },
+      "trigger_policy": "first_match_once",
+      "dependencies": [
+        "ad_impression"
+      ]
+    }
+  },
+  {
+    "id": "valid-and",
+    "definition": "candidate",
+    "valid": true,
+    "data": {
+      "schema_version": "1.0",
+      "candidate_id": "rewarded-5-6h",
+      "window_hours": 6,
+      "predicate": {
+        "op": "and",
+        "clauses": [
+          {
+            "op": "count",
+            "threshold": 5,
+            "event_name": "ad_impression",
+            "ad_format": "rewarded"
+          },
+          {
+            "op": "session_count",
+            "threshold": 2
+          }
+        ]
+      },
+      "trigger_policy": "first_match_once",
+      "dependencies": [
+        "ad_impression"
+      ]
+    }
+  },
+  {
+    "id": "invalid-deep-tree",
+    "definition": "candidate",
+    "valid": false,
+    "data": {
+      "schema_version": "1.0",
+      "candidate_id": "rewarded-5-6h",
+      "window_hours": 6,
+      "predicate": {
+        "op": "and",
+        "clauses": [
+          {
+            "op": "and",
+            "clauses": [
+              {
+                "op": "count",
+                "threshold": 5,
+                "event_name": "ad_impression",
+                "ad_format": "rewarded"
+              },
+              {
+                "op": "count",
+                "threshold": 5,
+                "event_name": "ad_impression",
+                "ad_format": "rewarded"
+              }
+            ]
+          },
+          {
+            "op": "count",
+            "threshold": 5,
+            "event_name": "ad_impression",
+            "ad_format": "rewarded"
+          }
+        ]
+      },
+      "trigger_policy": "first_match_once",
+      "dependencies": [
+        "ad_impression"
+      ]
+    }
+  },
+  {
+    "id": "valid-sequence",
+    "definition": "candidate",
+    "valid": true,
+    "data": {
+      "schema_version": "1.0",
+      "candidate_id": "rewarded-5-6h",
+      "window_hours": 6,
+      "predicate": {
+        "op": "sequence",
+        "steps": [
+          "session_start",
+          "ad_impression"
+        ],
+        "max_gap_seconds": 600,
+        "repeats": 2,
+        "matching": "non_overlapping"
+      },
+      "trigger_policy": "first_match_once",
+      "dependencies": [
+        "ad_impression"
+      ]
+    }
+  },
+  {
+    "id": "invalid-window",
+    "definition": "candidate",
+    "valid": false,
+    "data": {
+      "schema_version": "1.0",
+      "candidate_id": "rewarded-5-6h",
+      "window_hours": 169,
+      "predicate": {
+        "op": "count",
+        "threshold": 5,
+        "event_name": "ad_impression",
+        "ad_format": "rewarded"
+      },
+      "trigger_policy": "first_match_once",
+      "dependencies": [
+        "ad_impression"
+      ]
+    }
+  },
+  {
+    "id": "valid-run",
+    "definition": "run",
+    "valid": true,
+    "data": {
+      "run_id": "r1",
+      "dataset_id": "d1",
+      "kind": "baseline",
+      "parent_run_id": null,
+      "root_run_id": "r1",
+      "config": {
+        "schema_version": "1.0",
+        "windows_hours": [
+          1,
+          3,
+          6,
+          24,
+          72
+        ],
+        "max_candidates": 2000,
+        "max_finalists": 10,
+        "seed": 42,
+        "min_group_users": 100,
+        "bootstrap_replicates": 1000,
+        "exploration_fraction": 0.7
+      },
+      "split_id": null,
+      "state": "queued",
+      "evidence_status": "exploratory"
+    }
+  },
+  {
+    "id": "invalid-baseline-parent",
+    "definition": "run",
+    "valid": false,
+    "data": {
+      "run_id": "r1",
+      "dataset_id": "d1",
+      "kind": "baseline",
+      "parent_run_id": "r0",
+      "root_run_id": "r1",
+      "config": {
+        "schema_version": "1.0",
+        "windows_hours": [
+          1,
+          3,
+          6,
+          24,
+          72
+        ],
+        "max_candidates": 2000,
+        "max_finalists": 10,
+        "seed": 42,
+        "min_group_users": 100,
+        "bootstrap_replicates": 1000,
+        "exploration_fraction": 0.7
+      },
+      "split_id": null,
+      "state": "queued",
+      "evidence_status": "exploratory"
+    }
+  },
+  {
+    "id": "valid-followup",
+    "definition": "run",
+    "valid": true,
+    "data": {
+      "run_id": "r2",
+      "dataset_id": "d1",
+      "kind": "followup",
+      "parent_run_id": "r1",
+      "root_run_id": "r1",
+      "config": {
+        "schema_version": "1.0",
+        "windows_hours": [
+          1,
+          3,
+          6,
+          24,
+          72
+        ],
+        "max_candidates": 2000,
+        "max_finalists": 10,
+        "seed": 42,
+        "min_group_users": 100,
+        "bootstrap_replicates": 1000,
+        "exploration_fraction": 0.7
+      },
+      "split_id": null,
+      "state": "queued",
+      "evidence_status": "exploratory"
+    }
+  },
+  {
+    "id": "invalid-followup-validation",
+    "definition": "run",
+    "valid": false,
+    "data": {
+      "run_id": "r1",
+      "dataset_id": "d1",
+      "kind": "followup",
+      "parent_run_id": "r0",
+      "root_run_id": "r1",
+      "config": {
+        "schema_version": "1.0",
+        "windows_hours": [
+          1,
+          3,
+          6,
+          24,
+          72
+        ],
+        "max_candidates": 2000,
+        "max_finalists": 10,
+        "seed": 42,
+        "min_group_users": 100,
+        "bootstrap_replicates": 1000,
+        "exploration_fraction": 0.7
+      },
+      "split_id": null,
+      "state": "queued",
+      "evidence_status": "historically_validated"
+    }
+  },
+  {
+    "id": "valid-artifact",
+    "definition": "artifact",
+    "valid": true,
+    "data": {
+      "artifact_id": "a1",
+      "run_id": "r1",
+      "kind": "metrics",
+      "object_key": "r1/a1.json",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "schema_version": "1.0",
+      "attempt": 1
+    }
+  },
+  {
+    "id": "invalid-object-path",
+    "definition": "artifact",
+    "valid": false,
+    "data": {
+      "artifact_id": "a1",
+      "run_id": "r1",
+      "kind": "metrics",
+      "object_key": "../escape",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "schema_version": "1.0",
+      "attempt": 1
+    }
+  },
+  {
+    "id": "valid-chart",
+    "definition": "chart",
+    "valid": true,
+    "data": {
+      "chart_type": "scatter",
+      "artifact_id": "a1",
+      "run_id": "r1",
+      "x_unit": "percent",
+      "y_unit": "USD",
+      "sample_size": 10,
+      "evidence_status": "exploratory",
+      "series": [
+        {
+          "candidate_id": "c1",
+          "x": 10,
+          "y": null
+        }
+      ]
+    }
+  },
+  {
+    "id": "invalid-chart-html",
+    "definition": "chart",
+    "valid": false,
+    "data": {
+      "chart_type": "html",
+      "artifact_id": "a1",
+      "run_id": "r1",
+      "x_unit": "percent",
+      "y_unit": "USD",
+      "sample_size": 10,
+      "evidence_status": "exploratory",
+      "series": []
+    }
+  },
+  {
+    "id": "valid-export",
+    "definition": "export",
+    "valid": true,
+    "data": {
+      "schema_version": "1.0",
+      "complete_through": "2026-01-10T00:00:00Z",
+      "exported_at": "2026-01-11T00:00:00Z",
+      "origin": "first_open",
+      "id_policy": "one install per anonymous user",
+      "revenue_timing": "unknown",
+      "synthetic": true
+    }
+  }
+]

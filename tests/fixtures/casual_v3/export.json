@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0",
+  "complete_through": "2026-01-10T00:00:00Z",
+  "exported_at": "2026-01-10T00:00:00Z",
+  "origin": "install",
+  "id_policy": "one anonymous user_id per install",
+  "revenue_timing": "immediate",
+  "synthetic": true
+}

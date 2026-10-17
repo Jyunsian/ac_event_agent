@@ -1,0 +1,16 @@
+{
+  "name": "@ac-event/agent",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "npm run build && node --test runtime.test.mjs tools.test.mjs journal.test.mjs steps.test.mjs",
+    "dev": "npm run build && node dist/index.js",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@openrouter/ai-sdk-provider": "3.0.0",
+    "ai": "7.0.94",
+    "zod": "4.1.8"
+  }
+}

@@ -1,0 +1,50 @@
+import {chromium} from 'playwright';
+import assert from 'node:assert/strict';
+const base='http://127.0.0.1:5183',run='6d92a161-3ff0-4eaa-8305-6736fe1d1f13';
+const browser=await chromium.launch({channel:'chrome',headless:true});
+try{
+ for(const width of [1440,390]){
+  const page=await browser.newPage({viewport:{width,height:900}}),errors=[];
+  page.on('pageerror',e=>errors.push(e.message));
+  await page.goto(`${base}/workspace?run=${run}`);
+  await page.getByRole('tab',{name:'候選事件',exact:true}).click();
+  await page.getByRole('button',{name:'全部結果（1086）',exact:true}).click();
+  const catalog=page.getByRole('region',{name:'全部候選結果',exact:true});
+  await catalog.getByText('本次評估 1086 項；符合篩選 1086 項。',{exact:true}).waitFor();
+  assert.equal(await catalog.locator('table').last().locator('tbody tr').count(),50);
+  await catalog.getByRole('button',{name:'下一頁',exact:true}).click();
+  await catalog.getByText(/第 2／/).waitFor();
+  const row=catalog.locator('table').last().locator('tbody tr').first();
+  const id=await row.getAttribute('data-candidate-id');await row.getByRole('button').click();
+  await page.locator(`[data-selected-candidate="${id}"]`).waitFor();
+  await page.waitForFunction(id=>document.activeElement?.getAttribute('data-selected-candidate')===id,id);
+  const box=await page.locator(`[data-selected-candidate="${id}"]`).boundingBox();
+  assert(box.y>=0&&box.y<900,'Selected evidence must enter the viewport');
+  const plot=catalog.getByRole('region',{name:'累積收入門檻比較',exact:true});
+  const income=await (await page.request.get(`${base}/api/runs/${run}/reports/1/candidate-revenue-series`)).json();
+  const groupIndex=income.groups.findIndex(g=>g.points.some(p=>p.coverage!==null));
+  assert(groupIndex>=0,'Actual income points required');
+  await plot.getByLabel('比較範圍').selectOption(String(groupIndex));
+  const group=income.groups[groupIndex],point=group.points.find(p=>p.coverage!==null);
+  const circle=plot.locator('circle').first();await circle.scrollIntoViewIfNeeded();await circle.focus();await page.keyboard.press('Enter');
+  await page.waitForFunction(id=>document.activeElement?.getAttribute('data-selected-candidate')===id,point.candidate_id);
+  assert.equal(await page.locator(`[data-selected-candidate="${point.candidate_id}"]`).isVisible(),true);
+  const negativeIndex=income.groups.findIndex(g=>g.points.some(p=>p.difference_usd<0));assert(negativeIndex>=0);
+  await plot.getByLabel('比較範圍').selectOption(String(negativeIndex));
+  const negativeGroup=income.groups[negativeIndex],diffSvg=plot.locator('svg[data-metric="difference_usd"]'),coverageSvg=plot.locator('svg[data-metric="coverage"]');
+  assert.equal(await diffSvg.getAttribute('data-x-min'),await coverageSvg.getAttribute('data-x-min'));
+  assert.equal(await diffSvg.getAttribute('data-x-max'),await coverageSvg.getAttribute('data-x-max'));
+  assert.equal(await diffSvg.locator('circle').count(),negativeGroup.points.filter(p=>p.difference_usd!==null).length);
+  await plot.scrollIntoViewIfNeeded();await page.screenshot({path:`evidence/CV04-income-live-${width}.png`});
+  await diffSvg.locator('circle').first().click();
+  await page.waitForFunction(id=>document.activeElement?.getAttribute('data-selected-candidate')===id,negativeGroup.points.find(p=>p.difference_usd!==null).candidate_id);
+  await page.screenshot({path:`evidence/CV04-live-${width}.png`});
+  await page.getByRole('button',{name:'搜尋範圍與紀錄',exact:true}).click();
+  await page.getByRole('heading',{name:'本次搜尋的邊界',exact:true}).waitFor();
+  await page.getByRole('button',{name:'優先比較（0）',exact:true}).click();
+  await page.getByText(/這次沒有符合優先選擇條件的候選/).waitFor();
+  assert.deepEqual(errors,[]);
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+  await page.close();console.log(JSON.stringify({width,selected:id,pageErrors:errors}));
+ }
+}finally{await browser.close();}

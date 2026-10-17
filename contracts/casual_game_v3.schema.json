@@ -1,0 +1,236 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ac-event-agent.local/contracts/casual-game-v3.schema.json",
+  "$defs": {
+    "config": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "analysis_version",
+        "windows_hours",
+        "max_discovery_candidates",
+        "max_candidates",
+        "max_finalists",
+        "seed",
+        "min_group_users",
+        "bootstrap_replicates",
+        "exploration_fraction"
+      ],
+      "properties": {
+        "schema_version": {"const": "1.0"},
+        "analysis_version": {"const": "3.0-casual-game"},
+        "windows_hours": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 10,
+          "uniqueItems": true,
+          "items": {"enum": [1, 3, 6, 12, 24, 48, 72, 96, 120, 144]}
+        },
+        "max_discovery_candidates": {"type": "integer", "minimum": 1, "maximum": 20000},
+        "max_candidates": {"type": "integer", "minimum": 1, "maximum": 2000},
+        "max_finalists": {"type": "integer", "minimum": 1, "maximum": 10},
+        "seed": {"type": "integer", "minimum": 0},
+        "min_group_users": {"type": "integer", "minimum": 2},
+        "bootstrap_replicates": {"const": 1000},
+        "exploration_fraction": {"type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1},
+        "thresholds": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 100,
+            "uniqueItems": true,
+            "items": {"type": "number"}
+          }
+        }
+      }
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "category": {
+      "enum": [
+        "iaa",
+        "session_retention",
+        "level_progress",
+        "level_friction",
+        "cross_category",
+        "sequence"
+      ]
+    },
+    "metric": {
+      "enum": [
+        "ad_count",
+        "ad_revenue_sum",
+        "session_count",
+        "first_return_delay_seconds",
+        "return_in_interval",
+        "return_interval_count",
+        "consecutive_return_days",
+        "post_return_session_count",
+        "post_return_engaged_seconds",
+        "level_start_count",
+        "level_complete_count",
+        "distinct_completed_levels",
+        "max_completed_level_index",
+        "completed_level",
+        "reached_level",
+        "level_time_to_reach_seconds",
+        "completes_per_session",
+        "level_fail_count",
+        "retry_same_level",
+        "complete_after_fail",
+        "session_after_fail",
+        "attempts_per_level",
+        "complete_start_ratio",
+        "fail_start_ratio",
+        "completion_duration_seconds",
+        "consecutive_failures"
+      ]
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "event_name": {
+          "enum": ["ad_impression", "session_start", "session_end", "level_start", "level_complete", "level_fail"]
+        },
+        "ad_format": {
+          "enum": ["all", "rewarded", "interstitial", "banner", "app_open", "native", "other", "unknown"]
+        },
+        "level_id": {"type": "string", "minLength": 1, "maxLength": 256}
+        ,"level_index": {"type": "integer", "minimum": 0},
+        "start_hours": {"type": "number", "minimum": 0, "maximum": 144},
+        "end_hours": {"type": "number", "exclusiveMinimum": 0, "maximum": 144}
+      }
+    },
+    "atom": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["node", "metric", "comparator", "threshold", "minimum_denominator", "scope"],
+      "properties": {
+        "node": {"const": "atom"},
+        "metric": {"$ref": "#/$defs/metric"},
+        "comparator": {"enum": ["gte", "lte"]},
+        "threshold": {"type": "number"},
+        "minimum_denominator": {"type": "integer", "minimum": 0},
+        "scope": {"$ref": "#/$defs/scope"}
+      }
+    },
+    "boolean": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["node", "operator", "clauses"],
+      "properties": {
+        "node": {"const": "boolean"},
+        "operator": {"enum": ["and", "or"]},
+        "clauses": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {"$ref": "#/$defs/atom"}
+        }
+      }
+    },
+    "sequence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["node", "template", "max_gap_seconds", "repeats", "matching", "constraints"],
+      "properties": {
+        "node": {"const": "sequence"},
+        "template": {
+          "enum": [
+            "level_start_to_complete",
+            "level_fail_to_start",
+            "level_fail_to_complete",
+            "level_fail_to_session_end",
+            "session_start_to_level_complete",
+            "level_complete_to_ad_impression",
+            "rewarded_ad_to_level_complete"
+          ]
+        },
+        "max_gap_seconds": {"enum": [300, 1800, 7200, 86400]},
+        "repeats": {"type": "integer", "minimum": 1, "maximum": 3},
+        "matching": {"const": "non_overlapping"},
+        "constraints": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"enum": ["same_level", "same_attempt", "different_attempt", "same_session", "strict_order"]}
+        }
+      }
+    },
+    "predicate": {
+      "oneOf": [
+        {"$ref": "#/$defs/atom"},
+        {"$ref": "#/$defs/boolean"},
+        {"$ref": "#/$defs/sequence"}
+      ]
+    },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "analysis_version",
+        "candidate_id",
+        "category",
+        "indicator_type",
+        "observation_start_hours",
+        "observation_end_hours",
+        "decision_time_hours",
+        "trigger_mode",
+        "predicate",
+        "dependencies"
+      ],
+      "properties": {
+        "schema_version": {"const": "3.0"},
+        "analysis_version": {"const": "3.0-casual-game"},
+        "candidate_id": {"$ref": "#/$defs/digest"},
+        "category": {"$ref": "#/$defs/category"},
+        "indicator_type": {"type": "string", "minLength": 1, "maxLength": 80, "pattern": "^[a-z0-9_]+$"},
+        "observation_start_hours": {"type": "number", "minimum": 0, "maximum": 144},
+        "observation_end_hours": {"type": "number", "exclusiveMinimum": 0, "maximum": 144},
+        "decision_time_hours": {"type": "number", "minimum": 0, "maximum": 144},
+        "trigger_mode": {"enum": ["first_match_once", "checkpoint_snapshot"]},
+        "predicate": {"$ref": "#/$defs/predicate"},
+        "dependencies": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": ["ad_impression", "session_start", "session_end", "level_start", "level_complete", "level_fail"]
+          }
+        }
+      }
+    },
+    "artifact_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "analysis_version",
+        "run_id",
+        "dataset_id",
+        "pipeline_identity",
+        "feature_identity",
+        "policy_identity",
+        "upstream_sha256"
+      ],
+      "properties": {
+        "schema_version": {"const": "3.0"},
+        "analysis_version": {"const": "3.0-casual-game"},
+        "run_id": {"type": "string", "format": "uuid"},
+        "dataset_id": {"type": "string", "format": "uuid"},
+        "pipeline_identity": {"$ref": "#/$defs/digest"},
+        "feature_identity": {"$ref": "#/$defs/digest"},
+        "policy_identity": {"$ref": "#/$defs/digest"},
+        "upstream_sha256": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {"$ref": "#/$defs/digest"}
+        }
+      }
+    }
+  }
+}

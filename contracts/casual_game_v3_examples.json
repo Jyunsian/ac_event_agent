@@ -1,0 +1,146 @@
+[
+  {
+    "id": "valid-v3-config",
+    "definition": "config",
+    "valid": true,
+    "data": {
+      "schema_version": "1.0",
+      "analysis_version": "3.0-casual-game",
+      "windows_hours": [1, 3, 6, 12, 24, 48, 72, 96, 120, 144],
+      "max_discovery_candidates": 20000,
+      "max_candidates": 2000,
+      "max_finalists": 10,
+      "seed": 42,
+      "min_group_users": 100,
+      "bootstrap_replicates": 1000,
+      "exploration_fraction": 0.7
+    }
+  },
+  {
+    "id": "invalid-v3-config-bootstrap",
+    "definition": "config",
+    "valid": false,
+    "data": {
+      "schema_version": "1.0",
+      "analysis_version": "3.0-casual-game",
+      "windows_hours": [72],
+      "max_discovery_candidates": 20000,
+      "max_candidates": 2000,
+      "max_finalists": 10,
+      "seed": 42,
+      "min_group_users": 100,
+      "bootstrap_replicates": 100,
+      "exploration_fraction": 0.7
+    }
+  },
+  {
+    "id": "valid-v3-level-snapshot",
+    "definition": "candidate",
+    "valid": true,
+    "data": {
+      "schema_version": "3.0",
+      "analysis_version": "3.0-casual-game",
+      "candidate_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "category": "level_friction",
+      "indicator_type": "complete_start_ratio",
+      "observation_start_hours": 0,
+      "observation_end_hours": 24,
+      "decision_time_hours": 24,
+      "trigger_mode": "checkpoint_snapshot",
+      "predicate": {
+        "node": "atom",
+        "metric": "complete_start_ratio",
+        "comparator": "gte",
+        "threshold": 0.75,
+        "minimum_denominator": 3,
+        "scope": {"event_name": "level_complete"}
+      },
+      "dependencies": ["level_start", "level_complete"]
+    }
+  },
+  {
+    "id": "valid-v3-retry-sequence",
+    "definition": "candidate",
+    "valid": true,
+    "data": {
+      "schema_version": "3.0",
+      "analysis_version": "3.0-casual-game",
+      "candidate_id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "category": "sequence",
+      "indicator_type": "level_fail_to_start",
+      "observation_start_hours": 0,
+      "observation_end_hours": 6,
+      "decision_time_hours": 6,
+      "trigger_mode": "first_match_once",
+      "predicate": {
+        "node": "sequence",
+        "template": "level_fail_to_start",
+        "max_gap_seconds": 1800,
+        "repeats": 1,
+        "matching": "non_overlapping",
+        "constraints": ["same_level", "different_attempt", "strict_order"]
+      },
+      "dependencies": ["level_fail", "level_start"]
+    }
+  },
+  {
+    "id": "invalid-v3-three-clause-boolean",
+    "definition": "candidate",
+    "valid": false,
+    "data": {
+      "schema_version": "3.0",
+      "analysis_version": "3.0-casual-game",
+      "candidate_id": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "category": "cross_category",
+      "indicator_type": "cross_category",
+      "observation_start_hours": 0,
+      "observation_end_hours": 24,
+      "decision_time_hours": 24,
+      "trigger_mode": "first_match_once",
+      "predicate": {
+        "node": "boolean",
+        "operator": "and",
+        "clauses": [
+          {"node": "atom", "metric": "level_complete_count", "comparator": "gte", "threshold": 2, "minimum_denominator": 0, "scope": {}},
+          {"node": "atom", "metric": "session_count", "comparator": "gte", "threshold": 2, "minimum_denominator": 0, "scope": {}},
+          {"node": "atom", "metric": "ad_count", "comparator": "gte", "threshold": 2, "minimum_denominator": 0, "scope": {}}
+        ]
+      },
+      "dependencies": ["level_complete", "session_start", "ad_impression"]
+    }
+  },
+  {
+    "id": "valid-v3-artifact-identity",
+    "definition": "artifact_identity",
+    "valid": true,
+    "data": {
+      "schema_version": "3.0",
+      "analysis_version": "3.0-casual-game",
+      "run_id": "00000000-0000-4000-8000-000000000001",
+      "dataset_id": "00000000-0000-4000-8000-000000000002",
+      "pipeline_identity": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "feature_identity": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "policy_identity": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "upstream_sha256": {
+        "normalized": "1111111111111111111111111111111111111111111111111111111111111111"
+      }
+    }
+  },
+  {
+    "id": "invalid-v3-artifact-version",
+    "definition": "artifact_identity",
+    "valid": false,
+    "data": {
+      "schema_version": "3.0",
+      "analysis_version": "2.0",
+      "run_id": "00000000-0000-4000-8000-000000000001",
+      "dataset_id": "00000000-0000-4000-8000-000000000002",
+      "pipeline_identity": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "feature_identity": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "policy_identity": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "upstream_sha256": {
+        "normalized": "1111111111111111111111111111111111111111111111111111111111111111"
+      }
+    }
+  }
+]

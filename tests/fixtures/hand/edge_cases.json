@@ -1,0 +1,86 @@
+[
+  {
+    "id": "null-ad-revenue",
+    "event": {
+      "app_id": "synthetic",
+      "user_id": "u1",
+      "event_id": "edge-null",
+      "event_name": "ad_impression",
+      "event_time": "2026-01-01T01:00:00Z",
+      "available_at": "2026-01-01T01:00:00Z",
+      "ad_format": "rewarded",
+      "revenue_usd": null
+    },
+    "expected": "block_revenue_recommendation"
+  },
+  {
+    "id": "negative-correction",
+    "event": {
+      "app_id": "synthetic",
+      "user_id": "u1",
+      "event_id": "edge-negative",
+      "event_name": "ad_impression",
+      "event_time": "2026-01-01T01:00:00Z",
+      "available_at": "2026-01-01T01:00:00Z",
+      "ad_format": "rewarded",
+      "revenue_usd": -0.02
+    },
+    "expected": "correction_unsupported"
+  },
+  {
+    "id": "conflicting-id",
+    "event": {
+      "app_id": "synthetic",
+      "user_id": "u1",
+      "event_id": "u1-a1",
+      "event_name": "ad_impression",
+      "event_time": "2026-01-01T01:00:00Z",
+      "available_at": "2026-01-01T01:00:00Z",
+      "ad_format": "rewarded",
+      "revenue_usd": 0.99
+    },
+    "expected": "conflict_with_u1-a1"
+  },
+  {
+    "id": "orphan",
+    "event": {
+      "app_id": "synthetic",
+      "user_id": "missing",
+      "event_id": "edge-orphan",
+      "event_name": "ad_impression",
+      "event_time": "2026-01-01T01:00:00Z",
+      "available_at": "2026-01-01T01:00:00Z",
+      "ad_format": "rewarded",
+      "revenue_usd": 0.01
+    },
+    "expected": "unmatched_user"
+  },
+  {
+    "id": "before-install",
+    "event": {
+      "app_id": "synthetic",
+      "user_id": "u1",
+      "event_id": "edge-before",
+      "event_name": "ad_impression",
+      "event_time": "2025-12-31T23:59:59Z",
+      "available_at": "2026-01-01T01:00:00Z",
+      "ad_format": "rewarded",
+      "revenue_usd": 0.01
+    },
+    "expected": "before_install"
+  },
+  {
+    "id": "unknown-timing",
+    "event": {
+      "app_id": "synthetic",
+      "user_id": "u1",
+      "event_id": "edge-time",
+      "event_name": "ad_impression",
+      "event_time": "2026-01-01T01:00:00Z",
+      "available_at": null,
+      "ad_format": "rewarded",
+      "revenue_usd": 0.01
+    },
+    "expected": "disable_revenue_trigger_when_timing_unknown"
+  }
+]

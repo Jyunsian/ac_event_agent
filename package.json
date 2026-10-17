@@ -1,0 +1,23 @@
+{
+  "name": "ac-event-agent",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "workspaces": [
+    "web",
+    "agent"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "typecheck": "npm run typecheck --workspaces",
+    "check": "npm run build && npm run typecheck && npm run test:web-model && npm run test --workspace agent && uv run pytest && uv run python contracts/check.py",
+    "test:web-model": "node --test tests/report-model.test.mjs tests/candidate-client.test.mjs tests/chart-model.test.mjs tests/language.test.mjs tests/message-format.test.mjs tests/priority-sort.test.mjs tests/v4-presentation.test.mjs",
+    "dev:web": "npm run dev --workspace web",
+    "dev:agent": "npm run dev --workspace agent"
+  },
+  "devDependencies": {
+    "@types/node": "26.5.0",
+    "playwright": "1.62.1",
+    "typescript": "7.0.2"
+  }
+}

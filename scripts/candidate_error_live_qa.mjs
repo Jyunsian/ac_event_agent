@@ -1,0 +1,36 @@
+import {chromium} from 'playwright';
+import assert from 'node:assert/strict';
+const base='http://127.0.0.1:5183',run='6d92a161-3ff0-4eaa-8305-6736fe1d1f13';
+const browser=await chromium.launch({channel:'chrome',headless:true});
+try{for(const width of [1440,390]){
+ const page=await browser.newPage({viewport:{width,height:900}}),errors=[],writes=[];
+ page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(`${base}/workspace?run=${run}`);await page.getByRole('tab',{name:'候選事件',exact:true}).click();
+ let fail=true;const listPattern=`**/api/runs/${run}/reports/1/candidates?*`;
+ await page.route(listPattern,route=>fail?route.fulfill({status:503,body:'synthetic read failure'}):route.continue());
+ await page.getByRole('button',{name:'全部結果（1086）',exact:true}).click();
+ const catalog=page.getByRole('region',{name:'全部候選結果',exact:true});
+ await catalog.getByText(/候選清單讀取失敗/).waitFor();assert.equal(await catalog.locator('[data-candidate-id]').count(),0);
+ page.on('request',r=>{if(!['GET','HEAD','OPTIONS'].includes(r.method()))writes.push(r.url());});
+ fail=false;await catalog.getByRole('button',{name:'重試讀取',exact:true}).click();
+ await catalog.getByText('本次評估 1086 項；符合篩選 1086 項。',{exact:true}).waitFor();
+ const rows=catalog.locator('table').last().locator('tbody tr');assert.equal(await rows.count(),50);
+ const first=await rows.first().getAttribute('data-candidate-id');await rows.first().getByRole('button').click();
+ await page.locator(`[data-selected-candidate="${first}"]`).waitFor();
+ const second=await rows.nth(1).getAttribute('data-candidate-id');let failDetail=true;
+ await page.route(`**/api/runs/${run}/reports/1/candidates/${second}`,route=>failDetail?route.fulfill({status:503,body:'synthetic detail failure'}):route.continue());
+ await rows.nth(1).getByRole('button').click();await page.getByText(/證據讀取失敗，未顯示其他候選的資料/).waitFor();
+ assert.equal(await page.locator('[data-selected-candidate]').count(),0);
+ failDetail=false;await page.getByRole('button',{name:'重試',exact:true}).click();
+ await page.waitForFunction(id=>document.activeElement?.getAttribute('data-selected-candidate')===id,second);
+ assert.deepEqual(errors,[]);assert.deepEqual(writes,[]);
+ const oldRun='0b2dd3b5-5cc4-4dac-8afc-13490c9039bc';
+ const oldUrl=`${base}/api/runs/${oldRun}/reports/1/json`;
+ const oldBytes=await(await fetch(oldUrl)).text();assert.equal(JSON.parse(oldBytes).schema_version,'1.0');
+ await page.goto(`${base}/workspace?run=${oldRun}`);await page.getByRole('tab',{name:'候選事件',exact:true}).click();
+ await page.getByRole('region',{name:'候選比較',exact:true}).waitFor();
+ assert.equal(await page.getByRole('navigation',{name:'候選清單模式',exact:true}).count(),0);
+ assert.equal(await page.locator('[data-selected-candidate]').count(),0);
+ assert.equal(await(await fetch(oldUrl)).text(),oldBytes);assert.deepEqual(errors,[]);
+ console.log(JSON.stringify({width,recoveredCandidate:second,v1Readable:true,errors,writes}));await page.close();
+}}finally{await browser.close();}

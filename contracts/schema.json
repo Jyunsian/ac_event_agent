@@ -1,0 +1,992 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AC Event canonical contracts v1",
+  "$defs": {
+    "user": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "app_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "user_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "installed_at": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "Z$"
+        },
+        "platform": {
+          "enum": [
+            "android",
+            "ios"
+          ]
+        },
+        "country": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "acquisition_source": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "campaign_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "app_version_at_install": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "app_id",
+        "user_id",
+        "installed_at",
+        "platform"
+      ]
+    },
+    "event": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "app_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "user_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "event_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "event_name": {
+          "enum": [
+            "session_start",
+            "session_end",
+            "ad_impression",
+            "level_start",
+            "level_complete",
+            "level_fail"
+          ]
+        },
+        "event_time": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "Z$"
+        },
+        "available_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "Z$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "source_sequence": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "ad_format": {
+          "anyOf": [
+            {
+              "enum": [
+                "rewarded",
+                "interstitial",
+                "banner",
+                "app_open",
+                "native",
+                "other",
+                "unknown"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "revenue_usd": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "engaged_seconds": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "level_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "level_index": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "attempt_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "level_mode": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "difficulty": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "revive_used": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "booster_used": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "app_version": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "app_id",
+        "user_id",
+        "event_id",
+        "event_name",
+        "event_time"
+      ]
+    },
+    "export": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0"
+        },
+        "complete_through": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "Z$"
+        },
+        "exported_at": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "Z$"
+        },
+        "origin": {
+          "enum": [
+            "first_open",
+            "install"
+          ]
+        },
+        "id_policy": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "revenue_timing": {
+          "enum": [
+            "immediate",
+            "available_at",
+            "unknown"
+          ]
+        },
+        "synthetic": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "schema_version",
+        "complete_through",
+        "exported_at",
+        "origin",
+        "id_policy",
+        "revenue_timing",
+        "synthetic"
+      ]
+    },
+    "atom": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "op": {
+          "enum": [
+            "count",
+            "revenue_sum",
+            "session_count",
+            "engaged_seconds"
+          ]
+        },
+        "threshold": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "event_name": {
+          "enum": [
+            "ad_impression",
+            "session_start",
+            "session_end"
+          ]
+        },
+        "ad_format": {
+          "enum": [
+            "rewarded",
+            "interstitial",
+            "banner",
+            "app_open",
+            "native",
+            "other",
+            "unknown"
+          ]
+        }
+      },
+      "required": [
+        "op",
+        "threshold"
+      ]
+    },
+    "boolean": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "op": {
+          "enum": [
+            "and",
+            "or"
+          ]
+        },
+        "clauses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/atom"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        }
+      },
+      "required": [
+        "op",
+        "clauses"
+      ]
+    },
+    "sequence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "op": {
+          "const": "sequence"
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "ad_impression",
+              "session_start",
+              "session_end"
+            ]
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "max_gap_seconds": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "repeats": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3
+        },
+        "matching": {
+          "const": "non_overlapping"
+        }
+      },
+      "required": [
+        "op",
+        "steps",
+        "max_gap_seconds",
+        "repeats",
+        "matching"
+      ]
+    },
+    "predicate": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/atom"
+        },
+        {
+          "$ref": "#/$defs/boolean"
+        },
+        {
+          "$ref": "#/$defs/sequence"
+        }
+      ]
+    },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0"
+        },
+        "candidate_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "window_hours": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 168
+        },
+        "predicate": {
+          "$ref": "#/$defs/predicate"
+        },
+        "trigger_policy": {
+          "const": "first_match_once"
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "schema_version",
+        "candidate_id",
+        "window_hours",
+        "predicate",
+        "trigger_policy",
+        "dependencies"
+      ]
+    },
+    "config": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0"
+        },
+        "analysis_version": {
+          "enum": [
+            "2.0",
+            "3.0-casual-game",
+            "4.0-time-aware"
+          ]
+        },
+        "max_discovery_candidates": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 20000
+        },
+        "windows_hours": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 168
+          },
+          "minItems": 1,
+          "uniqueItems": true,
+          "maxItems": 10
+        },
+        "thresholds": {
+          "type": "object"
+        },
+        "segment": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "field",
+            "value"
+          ],
+          "properties": {
+            "field": {
+              "enum": [
+                "country",
+                "platform",
+                "acquisition_source"
+              ]
+            },
+            "value": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200,
+              "pattern": "\\S"
+            }
+          }
+        },
+        "max_candidates": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2000
+        },
+        "max_finalists": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "min_group_users": {
+          "type": "integer",
+          "minimum": 2
+        },
+        "bootstrap_replicates": {
+          "type": "integer",
+          "minimum": 100,
+          "maximum": 10000
+        },
+        "exploration_fraction": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "exclusiveMaximum": 1
+        },
+        "existing_rules": {
+          "type": "array",
+          "maxItems": 30,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "rule",
+              "deadline_hours"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 120
+              },
+              "rule": {
+                "type": "object"
+              },
+              "deadline_hours": {
+                "enum": [
+                  24,
+                  48,
+                  72,
+                  96,
+                  120,
+                  144
+                ]
+              }
+            }
+          }
+        }
+      },
+      "required": [
+        "schema_version",
+        "windows_hours",
+        "max_candidates",
+        "max_finalists",
+        "seed",
+        "min_group_users",
+        "bootstrap_replicates",
+        "exploration_fraction"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "analysis_version"
+            ],
+            "properties": {
+              "analysis_version": {
+                "const": "4.0-time-aware"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "thresholds": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "array",
+                  "minItems": 1,
+                  "maxItems": 100,
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "thresholds": {
+                "type": "object",
+                "minProperties": 1,
+                "additionalProperties": false,
+                "properties": {
+                  "count": {
+                    "$ref": "#/$defs/count_grid"
+                  },
+                  "session_count": {
+                    "$ref": "#/$defs/count_grid"
+                  },
+                  "revenue_sum": {
+                    "$ref": "#/$defs/value_grid"
+                  },
+                  "engaged_seconds": {
+                    "$ref": "#/$defs/value_grid"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "count_grid": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 20,
+      "uniqueItems": true,
+      "items": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 1000000
+      }
+    },
+    "value_grid": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 20,
+      "uniqueItems": true,
+      "items": {
+        "type": "number",
+        "exclusiveMinimum": 0,
+        "maximum": 1000000
+      }
+    },
+    "evidence": {
+      "enum": [
+        "exploratory",
+        "historically_validated",
+        "insufficient_data"
+      ]
+    },
+    "run": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "run_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "dataset_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "kind": {
+          "enum": [
+            "baseline",
+            "followup"
+          ]
+        },
+        "parent_run_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "root_run_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "config": {
+          "$ref": "#/$defs/config"
+        },
+        "split_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "state": {
+          "enum": [
+            "queued",
+            "running",
+            "succeeded",
+            "failed",
+            "cancelled"
+          ]
+        },
+        "evidence_status": {
+          "$ref": "#/$defs/evidence"
+        }
+      },
+      "required": [
+        "run_id",
+        "dataset_id",
+        "kind",
+        "parent_run_id",
+        "root_run_id",
+        "config",
+        "split_id",
+        "state",
+        "evidence_status"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "baseline"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "parent_run_id": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "parent_run_id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "evidence_status": {
+                "const": "exploratory"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "run_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "kind": {
+          "enum": [
+            "quality",
+            "profile",
+            "features",
+            "split",
+            "candidates",
+            "metrics",
+            "overlap",
+            "sensitivity",
+            "chart",
+            "report_html",
+            "report_json",
+            "report_csv"
+          ]
+        },
+        "object_key": {
+          "type": "string",
+          "pattern": "^(?!/)(?!.*\\.\\.)[a-zA-Z0-9_./-]+$"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "schema_version": {
+          "const": "1.0"
+        },
+        "attempt": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "artifact_id",
+        "run_id",
+        "kind",
+        "object_key",
+        "sha256",
+        "schema_version",
+        "attempt"
+      ]
+    },
+    "point": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "candidate_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "x": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "y": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "candidate_id",
+        "x",
+        "y"
+      ]
+    },
+    "chart": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "chart_type": {
+          "enum": [
+            "scatter",
+            "line",
+            "heatmap"
+          ]
+        },
+        "artifact_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "run_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "x_unit": {
+          "enum": [
+            "percent",
+            "USD",
+            "hours",
+            "count",
+            "candidate"
+          ]
+        },
+        "y_unit": {
+          "enum": [
+            "percent",
+            "USD",
+            "hours",
+            "count",
+            "candidate"
+          ]
+        },
+        "sample_size": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "evidence_status": {
+          "$ref": "#/$defs/evidence"
+        },
+        "series": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/point"
+          },
+          "minItems": 0,
+          "maxItems": 10000
+        }
+      },
+      "required": [
+        "chart_type",
+        "artifact_id",
+        "run_id",
+        "x_unit",
+        "y_unit",
+        "sample_size",
+        "evidence_status",
+        "series"
+      ]
+    }
+  }
+}
